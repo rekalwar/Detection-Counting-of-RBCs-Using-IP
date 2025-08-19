@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="E:/BE Final Year Projects/RBCs Projects/LeukemiaDetection-master/mysite/db.sqlite3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="5076"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,26:mainagedetect_admin_helath_csv"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE &quot;agedetect_cell_count_search_data&quot; (
+	&quot;id&quot;	integer NOT NULL,
+	&quot;prediction_accuracy&quot;	varchar(100),
+	&quot;result&quot;	varchar(100),
+	&quot;values_list&quot;	varchar(100),
+	&quot;predict_for&quot;	varchar(100),
+	&quot;created&quot;	datetime,
+	&quot;patient_id&quot;	bigint,
+	&quot;input_image&quot;	varchar(200),
+	&quot;output_image&quot;	varchar(200),
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT),
+	FOREIGN KEY(&quot;patient_id&quot;) REFERENCES &quot;agedetect_patient&quot;(&quot;id&quot;) DEFERRABLE INITIALLY DEFERRED
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>

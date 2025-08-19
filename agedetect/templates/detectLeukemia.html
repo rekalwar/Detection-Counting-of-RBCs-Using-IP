@@ -1,0 +1,126 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+	<!-- register -->
+
+
+
+	<section class="logins py-5">
+		<div class="container py-xl-4 py-lg-3">
+			<div class="title-section mb-md-4 mb-3 my-4">
+				<h6 class="w3ls-title-sub"></h6>
+				<h3 class="w3ls-title text-uppercase text-dark font-weight-bold ">RBC Count & Desease Detaction</h3><hr/>
+			</div>
+			<div class="login px-sm-12" style="width:100%">
+				<form action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+
+						<div class="col-md-6">
+							<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Upload Image</label>
+							<input type="file" class="form-control" name="file" required>
+						</div>
+
+
+					<button type="submit" class="btn btn-success submit mt-4">PREDICT NOW</button>
+					<button type="reset" class="btn btn-danger submit mt-4">RESET</button>
+				</form>
+			</div>
+
+		</div>
+		{% if myleukemiadata %}
+		<div class="container"><h5 class="step-title mb-4" style="font-weight: bold;  font-size: 1.2 rem; font-family: 'YourChosenFont', sans-serif;">Step 1: Image Preprocessing and Enhancement</h5><hr/>
+			<div class="row text-center mb-4">
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(a) Original Image</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image1.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(b) Gray Scaled Image</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image2.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(c) Contrast</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image3.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(d) Histogram</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image4.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(e) Final Enhancement</p>
+					</div>
+				</div>
+			</div>
+
+			<h5 class="step-center mb-4" style="font-weight: bold;  font-size: 1.2 rem; font-family: 'YourChosenFont', sans-serif;">Step 2: Edge Detection and Feature Extraction</h5><hr/>
+			<div class="row text-center">
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image5.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;" >(f) Thresholding</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image6.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(g) Morphological Operation</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image7.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(h) Edge Detection</p>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="image-container mx-auto">
+						<img src="{{myleukemiadata.output_image8.url}}" style="width:100%" alt="Detect Circles">
+						<p class="text-center mt-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">(i) Final Recognition</p>
+					</div>
+				</div>
+			</div>
+			<h5 class="step-center mb-4" style="font-weight: bold;  font-size: 1.2 rem; font-family: 'YourChosenFont', sans-serif;">Step 3: Final Output:</h5><hr/>
+			<div class="row">
+				<div class="col-md-8">
+					<p style="font-weight: bold;"> After applying SVM on extracted features images:</p>
+					<p style="font-weight: bold;"> Accuracy: <span >{{myleukemiadata.prediction_accuracy|floatformat:4}}%</span></p>
+					<!-- <p style="font-weight: bold;"> Approximate Number of Blood blasts Cells detected Are: : <span >{{myleukemiadata.prediction_accuracy|floatformat:4}}%</span></p> -->
+					<p style="font-weight: bold;">Result: {% if myleukemiadata.result == 'Leukemia Detected' %}<span style="color: red;">{{myleukemiadata.result}}</span> <script>
+						alert("Acute Lymphoblastic Leukemia Detected! Please consult a doctor.");
+					</script>{% else %}<span style="color: green;">{{myleukemiadata.result}}</span> <script>
+						alert("Hooray! You're Healthy! Keep Going.");
+					</script>{% endif %}</p>
+				</div>
+				</div>
+		</div>
+		
+		
+		
+		<!-- <div class="container">
+			
+			<div class="row">
+				<div class="col-md-3">
+					<label style="font-weight:600;font-size:30px;color:red">Input image</label>
+					<img src="{{myleukemiadata.input_image.url}}" style="width:100%;height:400px">
+				</div>
+				<div style="font-weight:600;font-size:30px;color:green" class="col-md-3">
+					<label>Output image</label>
+					<img src="{{myleukemiadata.output_image8.url}}" style="width:100%;height:400px">
+				</div>
+			</div>
+		</div> -->
+{% endif %}
+	</section>
+	<!-- //register -->
+
+{% endblock %}

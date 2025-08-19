@@ -1,0 +1,149 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+	<!-- register -->
+
+
+
+	<section class="logins py-5">
+		<div class="container py-xl-5 py-lg-3">
+			<div class="title-section mb-md-5 mb-4">
+				<h6 class="w3ls-title-sub"></h6>
+				<h3 class="w3ls-title text-uppercase text-dark font-weight-bold">Register Now
+					&nbsp; <span id="action"></span>
+				</h3><hr/>
+			</div>
+			<div class="login px-sm-12" style="width:100%">
+				<form action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-group row">
+						<div class="col-md-6  mb-2">
+							<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">First Name</label>
+							<div class="input-group ">
+								<input type="text" class="form-control" name="fname" id="fname" placeholder="First Name" required="">
+								<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('fname')"></button>
+								<p id="p"></p>
+							</div>
+						</div>
+						<div class="col-md-6  mb-2">
+							<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Last Name</label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name" required="">
+								<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('lname')"></button>
+								<p id="p"></p>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-6 mb-2">
+							<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Username</label>
+							<div class="input-group">
+								<input type="text" class="form-control" name="uname" id="uname" placeholder="Username" required="">
+								<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('uname')"></button>
+								<p id="p"></p>
+							</div>
+						</div>
+						<div class="col-md-6 mb-2">
+						<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Password</label>
+						<div class="input-group">
+							<input type="password" class="form-control" name="pwd" id="pwd" placeholder="Password" required="">
+							
+						</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-6 mb-2">
+						<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Email</label>
+						<div class="input-group">
+						<input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" required="">
+							<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('email')"></button>
+							<p id="p"></p>
+						</div>
+						</div>
+						<div class="col-md-6 mb-2">
+						<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Contact</label>
+						<div class="input-group">
+							<input type="text" class="form-control" name="contact" id="contact" placeholder="Enter Contact" required="">
+							<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('contact')"></button>
+								<p id="p"></p>
+						</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-6  mb-2">
+						<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Date Of Birth</label>
+							<div class="input-group">
+								<input type="date" class="form-control" name="dob" id="dob" placeholder="" required="">
+							</div>
+						</div>
+						<div class="col-md-6  mb-2">
+							<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Image</label>
+							<input type="file" class="form-control" name="image" required="">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-12  mb-2">
+						<label class="mb-2" style="font-weight: bold; font-family: 'YourChosenFont', sans-serif;">Address</label>
+						<div class="input-group">
+							<input type="text" class="form-control" name="add" id="address" placeholder="Enter Address" required="">
+							<button type="button" class="input-group-text fa fa-microphone" onclick="speechtotext('address')"></button>
+								<p id="p"></p>
+						</div>
+							</div>
+						
+					</div>
+
+					</div>
+					<button type="submit" class="btn btn-primary submit mt-2">Register</button>
+					<p class="text-center mt-5">
+						<a href="#">By clicking Register, I agree to your terms</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- //register -->
+
+
+	<script>
+		
+
+		
+		function speechtotext(pid){
+
+
+			
+			// get output div reference
+			var output = document.getElementById(pid);
+			// get action element reference
+			var action = document.getElementById("action");
+			// new speech recognition object
+			var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+			var recognition = new SpeechRecognition();
+		
+			// This runs when the speech recognition service starts
+			recognition.onstart = function() {
+				action.innerHTML = "<small>listening, please speak...</small>";
+			};
+			
+			recognition.onspeechend = function() {
+				action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+				recognition.stop();
+			}
+			
+			// This runs when the speech recognition service returns result
+			recognition.onresult = function(event) {
+				var transcript = event.results[0][0].transcript;
+				var confidence = event.results[0][0].confidence;
+				output.value = transcript;
+				//output.classList.remove("hide");
+			};
+			
+				// start recognition
+				recognition.start();
+			
+		}
+	</script>
+
+{% endblock %}

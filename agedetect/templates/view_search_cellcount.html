@@ -1,0 +1,145 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="container-fluid" style="width:90%;margin-top:10%">
+                    <div class="container-fluid">
+
+                        <h1 align="center" style="font-weight:bold;font-family : 'Monotype Corsiva' ; color : #000000 ;margin-top:4%">View Prediction Data of Counted Cells</h1>
+                         </div><hr>
+                                <table id="example" class="display" style="width:100%">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      {% if request.user.patient_set.all.0 %}
+                                      <th>Date</th>
+                                      {% else %}
+                                      <th>Patient Name</th>
+                                      {% endif %}
+                                      <th>Result</th>
+                                      <th>Input Image</th>
+                                      <th>Output Image</th>
+                                      <th>Accuracy</th>
+                                      <th>Action</th>
+
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              {% for i in data %}
+                                <tr>
+                                  <td style=" font-weight: bold;  font-family: 'YourChosenFont', sans-serif;"> {{forloop.counter}}.</td>
+                                  {% if request.user.patient_set.all.0 %}
+                                    <td style=" font-weight: bold;  font-family: 'YourChosenFont', sans-serif;">{{i.created}}</td>
+                                  {% else %}
+                                  <td style=" font-weight: bold;  font-family: 'YourChosenFont', sans-serif;">{{i.patient.user.first_name}} {{i.patient.user.last_name}}</td>
+                                  {% endif %}
+                                    
+                                    <td style=" font-weight: bold;  font-family: 'YourChosenFont', sans-serif;">{{i.result}}</span></td>
+                                  <td>
+                                  
+                                    <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#myModal-{{forloop.counter}}">
+                                        <img src="{{i.input_image.url}}" style="width:100px;height:100px">
+                                    </button>
+
+                                    <!-- Button trigger modal -->
+                                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal-{{forloop.counter}}">
+                                      Launch demo modal
+                                    </button> -->
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal-{{forloop.counter}}"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h6 class="modal-title pull-left" style="font-weight: bold; font-family: 'Poppins', sans-serif;" >Input Image</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body text-center"> <!-- Center content horizontally -->
+                                            <div style="padding: 5px;">
+                                               
+                                                <img src="{{ i.input_image.url }}" class="img-fluid mx-auto" style="width: 400px; height: 400px; border-radius: 4px;">
+                                            </div>
+                                        </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                          
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+
+                                          <!-- Modal -->
+                                          
+
+                                  
+                                  
+                                  </td>
+                                  
+                                  <td>
+                                  
+                                    <button type="button" class="btn btn" data-bs-toggle="modal" data-bs-target="#myModalOut-{{forloop.counter}}">
+                                      <img src="{{i.output_image.url}}" style="width:100px;height:100px">
+                                    </button>
+
+                                    <!-- Button trigger modal -->
+                                    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                      Launch demo modal
+                                    </button> -->
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="myModalOut-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h6 class="modal-title" id="exampleModalLabel" style="font-weight: bold; font-family: 'Poppins', sans-serif;">Output Image Results</h6>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body ">
+                                        <div class = "text-center">
+                                            <img src="{{i.output_image.url}}" class="img-fluid mx-auto" style="width: 300px; height: 300px; border-radius: 4px;">
+                                        </div>
+
+                                        <div class="container mt-4">
+                                            <h6 class="modal-title mb-2" id="exampleModalLabel" style="font-weight: bold; font-family: sans-serif;">Output Results: </h6>
+                                        
+                                           
+                                        
+                                            <div style="border: 2px solid #007bff; border-radius: 8px; padding: 10px; background-color: #f0f8ff;">
+                                                
+                                                <p style="font-weight: bold; font-size: 16px; margin-bottom: 2px;">Approximate Number of Cells:</p>
+                                                {% if i.result %}
+                                                    <p style="font-weight: bold; font-size: 14px; color: #4caf50; margin-bottom: 0;">{{ i.result }}</p>
+                                                {% else %}
+                                                    <p style="font-size: 14px; color: #ff0000; margin-bottom: 0;">No cell count available</p>
+                                                {% endif %}
+                                                <p style="font-weight: bold; font-size: 16px; margin-top: 3px;">Accuracy: <span class="text-success">{{ i.prediction_accuracy|floatformat:4 }}%</span></p>
+                                            </div>
+                                        </div>
+                                        
+                                         
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                     
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                                                  <!-- Modal -->
+                                    
+                                  
+                                  </td>
+                                  <td style=" font-weight: bold;  font-family: 'YourChosenFont', sans-serif;">{{i.prediction_accuracy|floatformat:4}}%</td>
+                                  <td style="width:150px">
+                                      <a href="/delete_cell_searched/{{i.id}}" ><button class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i></button></a></td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+{% endblock %}
